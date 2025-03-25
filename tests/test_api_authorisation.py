@@ -1,0 +1,17 @@
+import pytest
+
+from test_API_meme.data_for_tests import auth_data, auth_invalid_data
+
+@pytest.mark.parametrize('invalid_data', auth_invalid_data)
+def test_authorisation_with_invalid_name(invalid_data, authorisation):
+    authorisation.check_token(invalid_data)
+    authorisation.check_status_code_is_400()
+
+
+def test_authorisation_status_code_200(authorisation):
+    authorisation.check_token(auth_data)
+    authorisation.check_status_code_is_200()
+
+def test_authorisation_with_two_names_in_one_request(authorisation):
+    auth_data.update({'name': 'Jack', 'Surname': 'Jack'})
+    authorisation.check_token_name(auth_data)
