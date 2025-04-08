@@ -1,6 +1,6 @@
 import pytest
 
-from test_API_meme.data_for_tests import  main_data, data_param
+from test_API_meme.data_for_tests import  main_data, data_param_creating_meme
 
 
 def test_create_meme_with_status_200(create_meme_endpoint, authorisation):
@@ -19,7 +19,7 @@ def test_create_meme_without_required_field_url(create_meme_endpoint, authorisat
     create_meme_endpoint.check_status_code_is_400()
     create_meme_endpoint.check_response_text_bad_request()
 
-@pytest.mark.parametrize('text_data, tags_data', data_param)
+@pytest.mark.parametrize('text_data, tags_data', data_param_creating_meme)
 def test_create_meme_post_with_invalid_text_field(create_meme_endpoint, authorisation, text_data, tags_data):
     main_data.update({'text': text_data, 'tags': tags_data})
     create_meme_endpoint.create_meme_post(payload=main_data, headers=authorisation.get_headers())

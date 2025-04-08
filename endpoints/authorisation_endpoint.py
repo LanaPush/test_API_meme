@@ -42,3 +42,14 @@ class Authorisation(Endpoint):
             json=payload
         ).json()
         assert self.response['user'] == payload['name']
+
+    def get_foreign_token(self):
+        payload = {'name': 'foreign token'}
+        self.response = requests.post(
+            url=f'{self.url}/authorize',
+            headers={'Content-Type': 'application/json'},
+            json=payload
+        ).json()
+        self.token = self.response['token']
+        self.headers = {'Authorisation': self.token}
+        return self.headers
