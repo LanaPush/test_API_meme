@@ -21,9 +21,9 @@ auth_invalid_data = {'name': 123}, {'name': True}, { }
 auth_data = {'name': 'Jack'}
 
 data_for_update = {
-        'id': 'Jack',
-        'text': 'Cat meme',
-        'url': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvaL5H038UJ0ZktVJ4Z5jWNLuAQzjRFAjgPw&s',
-        'tags': ["funny", "cats", "work"],
-        'info': {"color": ["white", "black"], "objects": ["test", "picture"]}
+        "id": 250,
+        "info": {"color": ["white", "black"], "objects": ["test", "picture"]},
+        "tags": ["funny", "cats", "work"],
+        "text": "Cat meme",
+        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRvaL5H038UJ0ZktVJ4Z5jWNLuAQzjRFAjgPw&s"
     }

@@ -27,6 +27,14 @@ class Endpoint:
     def check_status_code_is_401(self):
         assert self.response.status_code == 401
 
+    @allure.step('check the status code is 403')
+    def check_status_code_is_403(self):
+        assert self.response.status_code == 403
+
+    @allure.step('check the response text Forbidden')
+    def check_response_text_forbidden(self):
+        assert '403 Forbidden' in self.response.text, f'{self.response.text}'
+
     @allure.step('check the response text Bad Request')
     def check_response_text_bad_request(self):
         assert '400 Bad Request' in self.response.text, f'{self.response.text}'

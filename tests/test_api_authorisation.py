@@ -14,6 +14,8 @@ def test_authorisation_with_invalid_name(invalid_data, authorisation):
 @allure.severity('critical')
 def test_authorisation_status_code_200(authorisation):
     authorisation.check_token(auth_data)
+    token = authorisation.get_token()
+    authorisation.check_token_is_alive_or_not(token)
     authorisation.check_status_code_is_200()
 
 

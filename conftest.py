@@ -40,11 +40,6 @@ def create_meme_id_then_delete_it(create_meme_endpoint, delete_meme_endpoint, au
 
 
 @pytest.fixture()
-def non_existing_meme_id():
-    return '12345678900000000'
-
-
-@pytest.fixture()
 def create_meme_id(create_meme_endpoint, authorisation):
     meme_id = create_meme_endpoint.create_meme_id(payload=main_data, headers=authorisation.get_headers())
     return meme_id

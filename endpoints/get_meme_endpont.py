@@ -14,6 +14,16 @@ class GetMeme(Endpoint):
         )
         assert type(self.response.json()) == dict
 
+
+    @allure.step('id is the same')
+    def id_is_the_same(self, meme_id, headers=None):
+        headers = headers if headers else self.headers
+        self.response = requests.get(
+            f'{self.url}/meme/{meme_id}',
+            headers=headers
+        )
+        assert self.response.json()['id'] == meme_id
+
     @allure.step('check the attributes content of properties in object')
     def get_fields_in_response(self, meme_id, headers=None):
         headers = headers if headers else self.headers
@@ -43,3 +53,33 @@ class GetMeme(Endpoint):
             headers=headers
         )
         return self.response.json()['id']
+
+
+    @allure.step('get meme post')
+    def get_meme_post(self, meme_id, headers=None):
+        headers = headers if headers else self.headers
+        self.response = requests.get(
+            f'{self.url}/meme/{meme_id}',
+            headers=headers
+        )
+        return self.response.text
+
+    @allure.step('get deleted post')
+    def get_deleted_post(self, meme_id, headers=None):
+        headers = headers if headers else self.headers
+        self.response = requests.get(
+            f'{self.url}/meme/{meme_id}',
+            headers=headers
+        )
+        if self.response.status_code == 200:
+            self.response.json()
+        return self.response.text
+
+    @allure.step('meme list is not empty')
+    def meme_list_not_empty(self, headers=None):
+        headers = headers if headers else self.headers
+        self.response = requests.get(
+            f'{self.url}/meme',
+            headers=headers
+        )
+        assert self.response.json() != []
