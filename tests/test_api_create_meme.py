@@ -1,12 +1,17 @@
 import allure
 import pytest
+
+from test_API_meme.conftest import create_meme_id
 from test_API_meme.data_for_tests import  main_data, data_param_creating_meme
 
 
 @allure.feature('create meme')
-def test_create_meme_with_status_200(create_meme_endpoint, authorisation):
+def test_create_meme_with_status_200(create_meme_endpoint, authorisation, get_meme_endpoint, create_meme_id):
     create_meme_endpoint.create_meme_post(payload=main_data, headers=authorisation.get_headers())
+    meme_id = create_meme_id
     create_meme_endpoint.check_status_code_is_200()
+    meme_post = get_meme_endpoint.get_meme_post(meme_id, authorisation.get_headers())
+    print(meme_post)
 
 
 @allure.feature('create meme')
