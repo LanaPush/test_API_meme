@@ -15,7 +15,6 @@ class Authorisation(Endpoint):
         ).json()
         return response['token']
 
-    @allure.step('get another token for some tests with authorisation')
     def foreign_token(self):
         payload = {'name': 'foreign token'}
         response = requests.post(
@@ -25,6 +24,7 @@ class Authorisation(Endpoint):
         ).json()
         return response['token']
 
+    @allure.step('get another token for some tests with authorisation')
     def get_foreign_token(self):
         self.token = self.foreign_token()
         self.headers = {'Authorization': self.token}
@@ -62,8 +62,6 @@ class Authorisation(Endpoint):
             json=payload
         ).json()
         assert self.response['user'] == payload['name']
-
-
 
     @allure.step('check token is alive')
     def check_token_is_alive_or_not(self, token):

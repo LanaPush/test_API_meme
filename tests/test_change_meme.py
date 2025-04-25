@@ -9,9 +9,8 @@ def test_change_url_of_meme(authorisation, change_meme_endpoint, create_meme_id_
     local_data_for_update = data_for_update.copy()
     local_data_for_update.update({'id': meme_id, 'url':'https://cdn-useast1.kapwing.com/static/templates/crying-cat-meme-template-regular-096fc808.webp'})
     change_meme_endpoint.change_meme(meme_id, payload=local_data_for_update, headers=authorisation.get_headers())
-    meme_post = get_meme_endpoint.get_meme_post(meme_id, headers=authorisation.get_headers())
-    print(meme_post)
     change_meme_endpoint.check_status_code_is_200()
+    change_meme_endpoint.check_changed_url(meme_id, local_data_for_update, headers=authorisation.get_headers())
 
 
 @allure.feature('change meme')

@@ -13,3 +13,11 @@ class ChangeMeme(Endpoint):
             json=payload
         )
         return self.response
+
+    def check_changed_url(self, meme_id, local_data_for_update, headers=None):
+        headers = headers if headers else self.headers
+        self.response = requests.get(
+            f'{self.url}/meme/{meme_id}',
+            headers=headers
+        ).json()
+        assert self.response['url'] == local_data_for_update['url']

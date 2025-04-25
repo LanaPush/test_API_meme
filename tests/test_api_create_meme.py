@@ -6,19 +6,18 @@ from test_API_meme.data_for_tests import  main_data, data_param_creating_meme
 
 
 @allure.feature('create meme')
-def test_create_meme_with_status_200(create_meme_endpoint, authorisation, get_meme_endpoint, create_meme_id):
-    create_meme_endpoint.create_meme_post(payload=main_data, headers=authorisation.get_headers())
+def test_create_meme_with_status_200(create_meme_endpoint, authorisation, create_meme_id):
     meme_id = create_meme_id
     create_meme_endpoint.check_status_code_is_200()
-    meme_post = get_meme_endpoint.get_meme_post(meme_id, authorisation.get_headers())
-    print(meme_post)
+    create_meme_endpoint.check_meme_text_is_the_same(meme_id, headers=authorisation.get_headers())
+
 
 
 @allure.feature('create meme')
 def test_create_meme_without_required_field_info(create_meme_endpoint, authorisation):
     local_main_data = main_data.copy()
     local_main_data.pop('info')
-    create_meme_endpoint.create_meme_post(payload=local_main_data, headers=authorisation.get_headers())
+    create_meme_endpoint.create_meme(headers=authorisation.get_headers(), payload=local_main_data)
     create_meme_endpoint.check_status_code_is_400()
     create_meme_endpoint.check_response_text_bad_request()
 
@@ -27,7 +26,7 @@ def test_create_meme_without_required_field_info(create_meme_endpoint, authorisa
 def test_create_meme_without_required_field_url(create_meme_endpoint, authorisation):
     local_main_data = main_data.copy()
     local_main_data.pop('url')
-    create_meme_endpoint.create_meme_post(payload=local_main_data, headers=authorisation.get_headers())
+    create_meme_endpoint.create_meme(headers=authorisation.get_headers(), payload=local_main_data)
     create_meme_endpoint.check_status_code_is_400()
     create_meme_endpoint.check_response_text_bad_request()
 
@@ -37,7 +36,7 @@ def test_create_meme_without_required_field_url(create_meme_endpoint, authorisat
 def test_create_meme_post_with_invalid_text_field(create_meme_endpoint, authorisation, text_data, tags_data):
     local_main_data = main_data.copy()
     local_main_data.update({'text': text_data, 'tags': tags_data})
-    create_meme_endpoint.create_meme_post(payload=local_main_data, headers=authorisation.get_headers())
+    create_meme_endpoint.create_meme(headers=authorisation.get_headers(), payload=local_main_data)
     create_meme_endpoint.check_status_code_is_400()
     create_meme_endpoint.check_response_text_bad_request()
 
@@ -55,6 +54,6 @@ def test_create_meme_post_with_escape_string(create_meme_endpoint, authorisation
 def test_create_meme_post_with_100000_symbols(create_meme_endpoint, authorisation):
     local_main_data = main_data.copy()
     local_main_data.update({'text': 'w' * 100000})
-    create_meme_endpoint.create_meme_post(payload=local_main_data, headers=authorisation.get_headers())
+    create_meme_endpoint.create_meme(headers=authorisation.get_headers(), payload=local_main_data)
     print(f'\nActual status_code is {create_meme_endpoint.status_code}')
     create_meme_endpoint.check_status_code_is_400()
