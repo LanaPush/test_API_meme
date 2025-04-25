@@ -6,8 +6,9 @@ def test_delete_meme_id(delete_meme_endpoint, create_meme_id, authorisation, get
     meme_id = create_meme_id
     delete_meme_endpoint.delete_meme(meme_id, headers=authorisation.get_headers())
     delete_meme_endpoint.check_status_code_is_200()
-    response = get_meme_endpoint.get_deleted_post(meme_id, headers=authorisation.get_headers())
-    print(response)
+    get_meme_endpoint.get_deleted_meme(meme_id, headers=authorisation.get_headers())
+    get_meme_endpoint.check_status_code_is_404()
+    get_meme_endpoint.check_response_text_not_found()
 
 
 @allure.feature('delete meme')

@@ -1,5 +1,7 @@
 import allure
 import requests
+
+from test_API_meme.data_for_tests import main_data
 from test_API_meme.endpoints.endpoints import Endpoint
 
 
@@ -8,7 +10,7 @@ class CreateMeme(Endpoint):
         self.meme_id = None
 
     @allure.step('create meme post')
-    def create_meme_post(self, headers=None, payload=None):
+    def create_meme(self, headers=None, payload=None):
         headers = headers if headers else self.headers
         self.response = requests.post(
             url=f'{self.url}/meme',
@@ -43,3 +45,12 @@ class CreateMeme(Endpoint):
         self.text = self.response.json()['text']
         self.meme_id = self.response.json()['id']
         return self.meme_id
+
+    def check_meme_text_is_the_same(self, meme_id, headers=None):
+        headers = headers if headers else self.headers
+        self.response = requests.get(
+            f'{self.url}/meme/{meme_id}',
+            headers=headers
+        ).json()
+        assert self.response['info'] == main_data['info']
+        assert self.response['url'] == main_data['url']

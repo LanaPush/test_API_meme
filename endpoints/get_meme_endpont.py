@@ -6,7 +6,7 @@ from test_API_meme.endpoints.endpoints import Endpoint
 class GetMeme(Endpoint):
 
     @allure.step('get list with all meme and check the type of objects')
-    def get_all_meme(self, headers=None):
+    def check_get_all_meme(self, headers=None):
         headers = headers if headers else self.headers
         self.response = requests.get(
             f'{self.url}/meme',
@@ -14,9 +14,8 @@ class GetMeme(Endpoint):
         )
         assert type(self.response.json()) == dict
 
-
     @allure.step('id is the same')
-    def id_is_the_same(self, meme_id, headers=None):
+    def check_meme_id_is_the_same(self, meme_id, headers=None):
         headers = headers if headers else self.headers
         self.response = requests.get(
             f'{self.url}/meme/{meme_id}',
@@ -25,7 +24,7 @@ class GetMeme(Endpoint):
         assert self.response.json()['id'] == meme_id
 
     @allure.step('check the attributes content of properties in object')
-    def get_fields_in_response(self, meme_id, headers=None):
+    def check_fields_in_response(self, meme_id, headers=None):
         headers = headers if headers else self.headers
         self.response = requests.get(
             f'{self.url}/meme/{meme_id}',
@@ -35,7 +34,7 @@ class GetMeme(Endpoint):
         assert self.response.json()['text'] == 'Cat meme'
 
     @allure.step('check the attributes type of properties in object')
-    def get_type_of_fields_in_response(self, meme_id, headers=None):
+    def check_type_of_fields_in_response(self, meme_id, headers=None):
         headers = headers if headers else self.headers
         response = requests.get(
             f'http://167.172.172.115:52355/meme/{meme_id}',
@@ -54,9 +53,8 @@ class GetMeme(Endpoint):
         )
         return self.response.json()['id']
 
-
     @allure.step('get meme post')
-    def get_meme_post(self, meme_id, headers=None):
+    def get_meme_text(self, meme_id, headers=None):
         headers = headers if headers else self.headers
         self.response = requests.get(
             f'{self.url}/meme/{meme_id}',
@@ -65,7 +63,7 @@ class GetMeme(Endpoint):
         return self.response.text
 
     @allure.step('get deleted post')
-    def get_deleted_post(self, meme_id, headers=None):
+    def get_deleted_meme(self, meme_id, headers=None):
         headers = headers if headers else self.headers
         self.response = requests.get(
             f'{self.url}/meme/{meme_id}',
@@ -76,7 +74,7 @@ class GetMeme(Endpoint):
         return self.response.text
 
     @allure.step('meme list is not empty')
-    def meme_list_not_empty(self, headers=None):
+    def check_meme_list_not_empty(self, headers=None):
         headers = headers if headers else self.headers
         self.response = requests.get(
             f'{self.url}/meme',
